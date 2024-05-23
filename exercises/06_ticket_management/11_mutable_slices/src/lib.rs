@@ -2,6 +2,12 @@
 //  modifying the input in place.
 //  Does it need to take a `&mut String`? Does a `&mut [str]` work? Why or why not?
 
+use std::borrow::Borrow;
+
+pub fn lowercase(s: &mut str) {
+    s.make_ascii_lowercase()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

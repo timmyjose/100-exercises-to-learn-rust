@@ -20,6 +20,18 @@ pub enum Status {
     Done,
 }
 
+struct TicketIter<'a> {
+    tickets: Vec<&'a Ticket>,
+}
+
+impl<'a> Iterator for TicketIter<'a> {
+    type Item = &'a Ticket;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.tickets.pop()
+    }
+}
+
 impl TicketStore {
     pub fn new() -> Self {
         Self {
@@ -29,6 +41,12 @@ impl TicketStore {
 
     pub fn add_ticket(&mut self, ticket: Ticket) {
         self.tickets.push(ticket);
+    }
+
+    pub fn iter(&self) -> TicketIter {
+        TicketIter {
+            tickets: self.tickets.iter().rev().collect::<Vec<&Ticket>>(),
+        }
     }
 }
 
