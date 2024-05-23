@@ -7,11 +7,15 @@
 struct Ticket {
     title: String,
     description: String,
-    status: String,
+    status: Status,
 }
 
+#[derive(Copy, Clone, Debug, PartialEq)]
 enum Status {
     // TODO: add the missing variants
+    ToDo,
+    InProgress,
+    Done,
 }
 
 impl Ticket {
@@ -32,6 +36,13 @@ impl Ticket {
             panic!("Only `To-Do`, `In Progress`, and `Done` statuses are allowed");
         }
 
+        let status = match status.as_str() {
+            "To-Do" => Status::ToDo,
+            "In Progress" => Status::InProgress,
+            "Done" => Status::Done,
+            _ => panic!("unknown status: `${status}`"),
+        };
+
         Ticket {
             title,
             description,
@@ -47,7 +58,7 @@ impl Ticket {
         &self.description
     }
 
-    pub fn status(&self) -> &String {
+    pub fn status(&self) -> &Status {
         &self.status
     }
 }
